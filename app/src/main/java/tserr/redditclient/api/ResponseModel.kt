@@ -13,7 +13,8 @@ class NewsResponse(
         val subreddit: String,
         val created: Long,
         val permalink: String,
-        val num_comments: String,
+        val num_comments: Int,
+        val score: Int,
         val thumbnail: String,
         val url: String
 )

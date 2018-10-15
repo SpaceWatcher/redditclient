@@ -14,8 +14,9 @@ class NewsAdapter(
         private var items: ArrayList<NewsItem> = ArrayList()
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    override fun onBindViewHolder(p0: RecyclerView.ViewHolder, p1: Int) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        holder as NewsViewHolder
+        holder.bind(items[position])
     }
 
     override fun getItemCount(): Int {
@@ -24,19 +25,9 @@ class NewsAdapter(
 
 
     override fun onCreateViewHolder(view: ViewGroup, position: Int): RecyclerView.ViewHolder {
-
-    }
-
-    inner class NewsViewHolder(view: ViewGroup, val item: NewsItem)
-        : RecyclerView.ViewHolder(view.inflate(R.layout.item_news)) {
-
-        init {
-            with(itemView) {
-                title.text = item.title
-                information.text = "Posted by ${item.author} ${getPostDate(item.postDate)}"
-            }
-        }
-
+        val holder = NewsViewHolder(view)
+        holder.bind(items[position])
+        return holder
     }
 
     fun getPostDate(millis : Long): CharSequence {
@@ -44,6 +35,19 @@ class NewsAdapter(
                 System.currentTimeMillis(),
                 DateUtils.MINUTE_IN_MILLIS,
                 DateUtils.FORMAT_ABBREV_RELATIVE)
+    }
+
+    inner class NewsViewHolder(view: ViewGroup)
+        : RecyclerView.ViewHolder(view.inflate(R.layout.item_news)) {
+
+        fun bind(item: NewsItem) = with(itemView) {
+            title.text = item.title
+            subreddit.text = "r/${item.subReddit}"
+            information.text = "Posted by u/${item.author} ${getPostDate(item.postDate)}"
+            comments.text = "${item.numComments} comments"
+            rating.text = "${item.rating} rating"
+        }
+
     }
 }
 

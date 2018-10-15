@@ -1,10 +1,12 @@
 package tserr.redditclient
 
 data class NewsItem(
-    val title: String,
-    val author: String,
-    val postDate: Long,
-    val thumbnail: String,
-    val numComments: Int,
-    val url: String
+        val title: String,
+        val author: String,
+        val subReddit: String,
+        val postDate: Long,
+        val thumbnail: String,
+        val numComments: Int,
+        val rating: Int,
+        val url: String
 )

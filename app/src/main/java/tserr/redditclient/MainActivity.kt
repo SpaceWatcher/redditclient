@@ -27,8 +27,10 @@ class MainActivity : AppCompatActivity() {
         val response = callResponse.execute();
 
         if (response.isSuccessful) {
-            val news = response.body()?.list?.map {
-                NewsItem(it.title, it.author, it.postDate, it.thumbnail, it.numComments, it.url)
+            val news = response.body()?.children?.map {
+                with(it) {
+                    NewsItem(title, author, subreddit, created, thumbnail, num_comments, score, url)
+                }
             }
         }
 
