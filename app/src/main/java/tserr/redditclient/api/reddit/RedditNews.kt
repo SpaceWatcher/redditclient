@@ -3,8 +3,8 @@ package tserr.redditclient.api.reddit
 import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory;
-import tserr.redditclient.api.DataResponse
 import tserr.redditclient.api.NewsApi
+import tserr.redditclient.api.NewsResponse
 
 class RedditNews : NewsApi {
 
@@ -18,7 +18,7 @@ class RedditNews : NewsApi {
         redditApi = retrofit.create(RedditApi::class.java);
     }
 
-    override fun getNews(after: String, limit: String): Call<DataResponse> {
+    override fun getNews(after: String, limit: String): Call<NewsResponse> {
         return  redditApi.getTopNews(after, limit)
     }
 }

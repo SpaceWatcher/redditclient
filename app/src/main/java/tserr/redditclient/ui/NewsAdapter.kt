@@ -11,7 +11,7 @@ import tserr.redditclient.R
 import java.util.*
 
 class NewsAdapter(
-        private var items: ArrayList<NewsItem> = ArrayList()
+        private var items: List<NewsItem>
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
@@ -30,6 +30,8 @@ class NewsAdapter(
         return holder
     }
 
+
+
     fun getPostDate(millis : Long): CharSequence {
         return DateUtils.getRelativeTimeSpanString(millis,
                 System.currentTimeMillis(),
@@ -45,7 +47,7 @@ class NewsAdapter(
             subreddit.text = "r/${item.subReddit}"
             information.text = "Posted by u/${item.author} ${getPostDate(item.postDate)}"
             comments.text = "${item.numComments} comments"
-            rating.text = "${item.rating} rating"
+            rating.text = "${item.rating}"
         }
 
     }

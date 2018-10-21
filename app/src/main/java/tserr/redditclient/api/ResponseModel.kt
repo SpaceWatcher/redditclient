@@ -1,13 +1,14 @@
 package tserr.redditclient.api
 
+class NewsResponse(val data: DataResponse)
 
 class DataResponse(
-        val children: List<NewsResponse>,
+        val children: List<RedditNewsResponse>,
         val after: String?,
         val before: String?
 )
 
-class NewsResponse(
+class RedditNewsResponse(
         val title: String,
         val author: String,
         val subreddit: String,
