@@ -1,5 +1,6 @@
 package tserr.redditclient.ui
 
+import android.app.Activity
 import android.content.Context
 import android.support.v7.widget.RecyclerView
 import android.text.format.DateUtils
@@ -13,13 +14,14 @@ import tserr.redditclient.R
 import android.support.v4.content.ContextCompat.startActivity
 import android.content.Intent
 import android.net.Uri
+import android.support.customtabs.CustomTabsIntent
 import java.security.AccessControlContext
 import java.security.PrivateKey
 
 
 class NewsAdapter(
         private var items: List<NewsItem>,
-        private var context: Context
+        private var activity: Activity
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
@@ -30,16 +32,13 @@ class NewsAdapter(
         return items.size
     }
 
-
     override fun onCreateViewHolder(view: ViewGroup, position: Int): RecyclerView.ViewHolder {
         val holder = NewsViewHolder(view)
         holder.bind(items[position])
         return holder
     }
 
-
-
-    fun getPostDate(seconds : Long): CharSequence {
+    fun getPostDate(seconds: Long): CharSequence {
         val millis = seconds * 1000
         return DateUtils.getRelativeTimeSpanString(millis,
                 System.currentTimeMillis(),
@@ -52,14 +51,20 @@ class NewsAdapter(
 
         fun bind(item: NewsItem) = with(itemView) {
             title.text = item.title
-            subreddit.text = "r/${item.subReddit}"
-            information.text = "Posted by u/${item.author} ${getPostDate(item.postDate)}"
-            comments.text = "${item.numComments} comments"
-            rating.text = "${item.rating}"
+            subreddit.text = activity.getString(R.string.subreddit, item.subReddit)
+            information.text = activity.getString(R.string.info, item.author, getPostDate(item.postDate))
+            comments.text = activity.getString(R.string.comments, item.numComments)
+            rating.text = item.rating.toString()
             Picasso.get().load(item.thumbnail).into(news_image)
-            setOnClickListener{
-                //val intent = Intent(Intent.ACTION_VIEW, Uri.parse(item.link))
-               // context.startActivity(intent)
+            setOnClickListener {
+                val url = "https://www.reddit.com${item.link}"
+                val customTabsIntent = CustomTabsIntent.Builder()
+                        .setToolbarColor(activity.getColor(R.color.colorPrimaryDark))
+                        .setSecondaryToolbarColor(activity.getColor(R.color.colorAccent))
+                        .build()
+
+                customTabsIntent.launchUrl(activity, Uri.parse(url))
+
             }
         }
 

@@ -5,4 +5,5 @@
     <color name="colorAccent">#0079D3</color>
     <color name="windowBackground">#d9dfe5</color>
     <color name="textColorPrimary">#000000</color>
+    <color name="rating_background">#e4e4e4</color>
 </resources>

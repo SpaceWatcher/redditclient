@@ -16,7 +16,7 @@ class RedditNewsResponse(
         val title: String,
         val author: String,
         val subreddit: String,
-        val created: Long,
+        val created_utc: Long,
         val permalink: String,
         val num_comments: Int,
         val score: Int,

@@ -7,7 +7,6 @@ import android.support.v7.widget.RecyclerView
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_main.*
 import rx.Observable
-import rx.Scheduler
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
 import tserr.redditclient.api.NewsApi
@@ -58,7 +57,7 @@ class MainActivity : AppCompatActivity() {
             if (response.isSuccessful) {
                 val news = response.body()?.data?.children?.map {
                     with(it.data) {
-                        NewsItem(title, author, subreddit, created, thumbnail, num_comments, score, url, permalink)
+                        NewsItem(title, author, subreddit, created_utc, thumbnail, num_comments, score, url, permalink)
                     }
                 }
                 subscriber.onNext(news)

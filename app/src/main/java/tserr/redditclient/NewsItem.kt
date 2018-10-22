@@ -1,11 +1,13 @@
 package tserr.redditclient
 
 
-/*
-data class NewsModel(
 
+data class NewsModel(
+    val newsList: List<NewsItem>,
+    val after: String,
+    val before: String
 )
-*/
+
 
 data class NewsItem(
         val title: String,

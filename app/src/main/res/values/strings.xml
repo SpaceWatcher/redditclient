@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">redditTop</string>
     <string name="news_image">News Image</string>
+    <string name="subreddit">r/%1$s</string>
+    <string name="info">Posted by u/%1$s %2$s</string>
+    <string name="comments">%1$d comments</string>
 </resources>
