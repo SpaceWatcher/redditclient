@@ -4,8 +4,12 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_main.*
 import rx.Observable
+import rx.Scheduler
+import rx.android.schedulers.AndroidSchedulers
+import rx.schedulers.Schedulers
 import tserr.redditclient.api.NewsApi
 import tserr.redditclient.api.reddit.RedditNews
 import tserr.redditclient.ui.NewsAdapter
@@ -27,24 +31,41 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         initToolbar()
 
+        getNews()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        { news ->
+                            newsList.adapter = NewsAdapter(news, this)
+                            (newsList.adapter as NewsAdapter).notifyDataSetChanged()
+                        },
+                        { error ->
+                            Toast.makeText(this, error.message, Toast.LENGTH_LONG).show()
+                        }
+                )
 
 
     }
 
     private fun getNews(): Observable<List<NewsItem>> {
-        val newsApi: NewsApi = RedditNews()
-        val callResponse = newsApi.getNews("", "25")
-        val response = callResponse.execute();
 
-        if (response.isSuccessful) {
-            val news = response.body()?.data?.children?.map {
-                with(it) {
-                    NewsItem(title, author, subreddit, created, thumbnail, num_comments, score, url)
+        return Observable.create { subscriber ->
+
+            val newsApi: NewsApi = RedditNews()
+            val callResponse = newsApi.getNews("", "25")
+            val response = callResponse.execute();
+
+            if (response.isSuccessful) {
+                val news = response.body()?.data?.children?.map {
+                    with(it.data) {
+                        NewsItem(title, author, subreddit, created, thumbnail, num_comments, score, url, permalink)
+                    }
                 }
+                subscriber.onNext(news)
+                subscriber.onCompleted()
+            } else {
+                subscriber.onError(Throwable(response.message()))
             }
-
-            newsList.adapter = NewsAdapter(news!!)
-            return Observable.create(news)
         }
     }
 

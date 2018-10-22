@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="#e4e4e4"
+    android:maxHeight="300dp"
     android:orientation="horizontal">
 
     <TextView
@@ -33,13 +34,15 @@
             android:layout_height="wrap_content"
             android:padding="2dp"
             android:text="Posted by Author N hours ago"
-            app:layout_constraintStart_toEndOf="@id/subreddit" />
+            app:layout_constraintTop_toBottomOf="@id/subreddit" />
 
         <ImageView
             android:id="@+id/news_image"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:contentDescription="@string/news_image"
+            android:maxWidth="100dp"
+            android:maxHeight="100dp"
             android:src="@drawable/ic_launcher_background"
             app:layout_constraintTop_toBottomOf="@id/information"
             app:layout_constraintHorizontal_chainStyle="packed"/>

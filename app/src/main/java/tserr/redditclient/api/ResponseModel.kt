@@ -3,9 +3,13 @@ package tserr.redditclient.api
 class NewsResponse(val data: DataResponse)
 
 class DataResponse(
-        val children: List<RedditNewsResponse>,
+        val children: List<ChildrenResponse>,
         val after: String?,
         val before: String?
+)
+
+class ChildrenResponse(
+        val data: RedditNewsResponse
 )
 
 class RedditNewsResponse(
