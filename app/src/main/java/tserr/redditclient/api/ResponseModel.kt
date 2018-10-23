@@ -4,13 +4,10 @@ class NewsResponse(val data: DataResponse)
 
 class DataResponse(
         val children: List<ChildrenResponse>,
-        val after: String?,
-        val before: String?
+        val after: String
 )
 
-class ChildrenResponse(
-        val data: RedditNewsResponse
-)
+class ChildrenResponse(val data: RedditNewsResponse)
 
 class RedditNewsResponse(
         val title: String,
